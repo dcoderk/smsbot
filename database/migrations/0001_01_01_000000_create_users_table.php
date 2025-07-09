@@ -13,10 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            // company_id is nullable for Super Admins who aren't tied to a company.
+           // $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('name');
+            $table->string('title')->nullable(); // For staff/nurse title
+            $table->string('telephone')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            // Added 'Super Admin' to the list of roles
+            $table->enum('role', ['Staff', 'Manager', 'Super Admin']);
             $table->rememberToken();
             $table->timestamps();
         });
