@@ -14,10 +14,10 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Check if the admin user already exists to avoid duplicates
-        if (!User::where('email', 'adfirm02k@gmail.com')->exists()) {
+        if (!User::where('email', 'jcoder02k@gmail.com')->exists()) {
             User::create([
                 'name' => 'Super Admin',
-                'email' => 'adfirm02k@gmail.com',
+                'email' => 'jcoder02k@gmail.com',
                 'password' => Hash::make('1234567#'), // Important: Change this!
                 'role' => 'Super Admin',
                 'company_id' => null, // Super Admin is not tied to a specific company
