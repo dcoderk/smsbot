@@ -17,6 +17,12 @@ class Company extends Model
     protected $fillable = [
         'company_name',
         'address',
-        'website',
+        'telephone',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
 }

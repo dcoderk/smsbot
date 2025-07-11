@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function colleagues()
+    {
+    // This finds all Users where their 'company_id' matches this user's 'company_id',
+    // excluding the user themselves from the list.
+    return $this->hasMany(User::class, 'company_id', 'company_id')
+                ->where('id', '!=', $this->id);
+    }
 }
