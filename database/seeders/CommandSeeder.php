@@ -22,7 +22,7 @@ class CommandSeeder extends Seeder
         // 2. Create the two replies and associate them with the command
         $command->replies()->create([
             'type' => 'text',
-            'content' => 'Thank Tony, LPN. see link to direct you what to do.'
+            'content' => 'Thank {name}, {title}. see link to direct you what to do.'
         ]);
 
         $command->replies()->create([

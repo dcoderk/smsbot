@@ -9,7 +9,12 @@ class Command extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['trigger', 'description'];
+    protected $fillable = ['trigger', 'description', 'company_id'];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 
     public function replies()
     {

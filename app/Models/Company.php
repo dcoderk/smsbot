@@ -20,6 +20,11 @@ class Company extends Model
         'telephone',
     ];
 
+    public function commands()
+    {
+        return $this->hasMany(Command::class);
+    }
+    
     public function users()
     {
         return $this->hasMany(User::class);
