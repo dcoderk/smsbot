@@ -43,6 +43,7 @@ class UserFactory extends Factory
             'title' => fake()->randomElement(['LPN', 'CNA']),
             // Creates a New York (USA) phone number
             'telephone' => fake()->randomElement(['212', '718', '917', '646']) . fake()->numerify('-###-####'),
+            'password' => Hash::make('staff001'), // Important: Change this!
         ]);
     }
 
@@ -54,6 +55,8 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'role' => 'Manager',
             'title' => 'Hospital Manager', // Or set to null if managers have no title
+            'password' => Hash::make('manager001'), // Important: Change this!
+            
         ]);
     }
 }

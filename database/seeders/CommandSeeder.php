@@ -27,7 +27,7 @@ class CommandSeeder extends Seeder
 
         $command->replies()->create([
             'type' => 'url',
-            'content' => 'www.tony.com/as'
+            'content' => 'https://www.youtube.com/'
         ]);
     }
 }
