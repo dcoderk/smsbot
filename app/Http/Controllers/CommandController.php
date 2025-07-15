@@ -57,28 +57,37 @@ class CommandController extends Controller
      */
     public function executeTestCommand(Request $request)
     {
-        // 1. Validate the two inputs
+        // 1. Validate the inputs
         $validated = $request->validate([
             'telephone' => 'required|string|exists:users,telephone',
             'trigger' => 'required|string',
         ]);
 
-        // 2. Find the user by their telephone number to get their details
         $staffUser = User::where('telephone', $validated['telephone'])->firstOrFail();
 
-        // 3. Find the command by its trigger
-        $command = Command::where('trigger', $validated['trigger'])
-                      ->where('company_id', $staffUser->company_id) // <-- Important check
-                      ->first();
-        
-        // -- ADD THIS CHECK --
-        // If no command is found, stop here and return an error message.
-        if (!$command) {
-            return view('commands.test', ['replyText' => 'Error: Command not found for your company.']);
-        }   
-        // -- END OF CHECK --
+        // -- CORRECTED COMMAND SEARCH LOGIC --
 
-        // 4. Perform the cascading lookup to find the correct set of replies
+        // 2. First, look for a command specific to the staff's company
+        $command = Command::where('trigger', $validated['trigger'])
+                        ->where('company_id', $staffUser->company_id)
+                        ->first();
+
+        // 3. If no company-specific command is found, look for a global one (where company_id is null)
+        if (!$command) {
+            $command = Command::where('trigger', 'LIKE', $validated['trigger'])
+                            ->whereNull('company_id')
+                            ->first();
+        }
+
+        // 4. NOW, check if a command was found at all. If not, the command truly doesn't exist.
+        if (!$command) {
+            return view('commands.test', ['replies' => collect(), 'message' => 'Error: Command not found.']);
+        }
+        
+        // -- END OF CORRECTION --
+
+
+        // 5. Find the replies for the command that was found
         $replies = $command->replies()
             ->where('company_id', $staffUser->company_id)
             ->get();
@@ -90,7 +99,7 @@ class CommandController extends Controller
                 ->get();
         }
 
-        // 5. NEW: Personalize replies by replacing placeholders
+        // 6. Personalize replies by replacing placeholders
         $processedReplies = $replies->map(function ($reply) use ($staffUser) {
             $placeholders = ['{name}', '{title}'];
             $values = [$staffUser->name, $staffUser->title];
