@@ -14,7 +14,7 @@ class CommandController extends Controller
      */
     public function showTestForm()
     {
-        return view('commands.test');
+        return view('commands.sms');
     }
 
     public function store(Request $request)
@@ -81,7 +81,7 @@ class CommandController extends Controller
 
         // 4. NOW, check if a command was found at all. If not, the command truly doesn't exist.
         if (!$command) {
-            return view('commands.test', ['replies' => collect(), 'message' => 'Error: Command not found.']);
+            return view('commands.sms', ['replies' => collect(), 'message' => 'Error: Command not found.']);
         }
         
         // -- END OF CORRECTION --
@@ -108,7 +108,7 @@ class CommandController extends Controller
             return $reply;
         });
 
-        return view('commands.test', [
+        return view('commands.sms', [
             'replies' => $processedReplies,
             'message' => $processedReplies->isEmpty() ? 'Error: No replies found for this command.' : null
         ]);

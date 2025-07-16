@@ -14,7 +14,7 @@
 </head>
 <body>
     <h1>Test a Command</h1>
-    <form action="{{ route('commands.test.execute') }}" method="POST">
+    <form action="{{ route('commands.sms.execute') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="telephone">Staff Telephone Number:</label>

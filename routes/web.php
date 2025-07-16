@@ -9,8 +9,8 @@ Route::get('/', function () {
 
 
 // These routes are now PUBLIC and do not require a login.
-Route::get('/commands/test', [CommandController::class, 'showTestForm'])->name('commands.test.show');
-Route::post('/commands/test', [CommandController::class, 'executeTestCommand'])->name('commands.test.execute');
+Route::get('/commands/sms', [CommandController::class, 'showTestForm'])->name('commands.sms.show');
+Route::post('/commands/sms', [CommandController::class, 'executeTestCommand'])->name('commands.sms.execute');
 
 
 // This group remains PROTECTED for Admins/Managers ONLY.
